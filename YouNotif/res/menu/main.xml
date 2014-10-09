@@ -7,9 +7,21 @@
           android:icon="@drawable/ic_action_refresh"
           android:title="@string/action_refresh"
           android:showAsAction="ifRoom" />
-	<!-- Help -->
+	<!-- New -->
     <item android:id="@+id/action_new"
           android:icon="@drawable/ic_action_new"
           android:title="@string/action_new"
           android:showAsAction="ifRoom"/>
+    
+    
+    <item android:id="@+id/action_group"
+          android:title="@string/action_group"
+          android:showAsAction="never"/>
+    <item android:id="@+id/action_settings"
+          android:title="@string/action_settings"
+          android:showAsAction="never"/>
+    <item android:id="@+id/action_consult"
+          android:title="@string/action_consult"
+          android:showAsAction="never"/>
+    
 </menu>

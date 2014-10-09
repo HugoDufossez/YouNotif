@@ -2,8 +2,9 @@
 <resources>
 
     <string name="app_name">YouNotif</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
 	<string name="action_refresh">Rafraichir</string>
 	<string name="action_new">Ajouter Notification</string>
+	<string name="action_consult">Consulter mes moyennes</string>
+	<string name="action_settings">Réglages</string>
+	<string name="action_group">Gérer les groupes</string>
 </resources>
