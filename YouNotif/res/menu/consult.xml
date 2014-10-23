@@ -23,6 +23,5 @@
     <item android:id="@+id/action_consult"
           android:title="@string/action_consult"
           android:showAsAction="never"/>
-
     
 </menu>

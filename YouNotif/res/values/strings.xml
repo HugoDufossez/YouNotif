@@ -4,7 +4,29 @@
     <string name="app_name">YouNotif</string>
 	<string name="action_refresh">Rafraichir</string>
 	<string name="action_new">Ajouter Notification</string>
+	<string name="action_notif">ic_action_forward</string>
 	<string name="action_consult">Consulter mes moyennes</string>
 	<string name="action_settings">Réglages</string>
 	<string name="action_group">Gérer les groupes</string>
+	<string name="action_NotifType">Type :</string>
+	<string name="action_BeginDate">Date début</string>
+	<string name="action_BeginTime">Heure début :</string>
+	<string name="action_EndDate">Date fin :</string>
+	<string name="action_EndTime">Heure fin :</string>
+	<string name="action_NotifContent">Annonce :</string>
+	<string name="action_NotifDay">Notification le :</string>
+	<string name="title_activity_group">MainActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_consult">Mes Moyennes</string>
+	
+    <string-array name="days">
+        <item>Lundi</item>
+        <item>Mardi</item>
+        <item>Mercredi</item>
+        <item>Jeudi</item>
+        <item>Vendredi</item>
+        <item>Samedi</item>
+        <item>Dimanche</item>
+    </string-array>
+
 </resources>
