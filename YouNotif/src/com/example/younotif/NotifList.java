@@ -45,7 +45,9 @@ public class NotifList extends ListFragment{
 	}
 
 	public void setListItems(ArrayList<HashMap<String, String>> listItems) {
-		this.listItems = listItems;
+		this.listItems.clear();
+		this.listItems.addAll(listItems);
+		adapter.notifyDataSetChanged();
 	}
 
 	public SimpleAdapter getAdapter() {

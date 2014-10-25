@@ -13,20 +13,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
-	private static Context context;
 	private Notifications notifications;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.context = this.getApplicationContext();
 		setContentView(R.layout.activity_main);
 
 		android.app.FragmentManager fm = getFragmentManager();
 		FragmentTransaction ft = fm.beginTransaction();
 		ft.hide(fm.findFragmentById(R.id.notifList));
 		notifications = new Notifications(new NotifView((NotifList)fm.findFragmentById(R.id.notifList)));
+		
 		ft.commit();
 
 	}
@@ -61,8 +61,9 @@ public class MainActivity extends Activity {
 			// help action
 			ft.hide(fm.findFragmentById(R.id.notifList));
 			AddNotif an = new AddNotif();
-			ft.add(android.R.id.content,an);
 			an.notifications = notifications;
+			ft.add(android.R.id.content,an);
+			
 			ft.addToBackStack("AddNotif");
 			ft.commit();
 			return true;

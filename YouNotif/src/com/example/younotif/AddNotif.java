@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 public class AddNotif extends Fragment implements OnClickListener{
@@ -27,14 +29,13 @@ public class AddNotif extends Fragment implements OnClickListener{
     }
 	
 	public void onClick(View vo) {
-		/*String group = "group";
+		String group = "group";
 		String title = "Notification :";
 		String beginD =((EditText) v.findViewById(R.id.txtBeginDate)).getText().toString();
 		String endD = ((EditText)v.findViewById(R.id.txtEndDate)).getText().toString();
 		String day = ((Spinner)v.findViewById(R.id.spDay)).getSelectedItem().toString();
 		String content = ((EditText)v.findViewById(R.id.txtContent)).getText().toString();
-        notifications.addNotification(new Notification(group,"Notification :",beginD, endD, day, content));*/
-		Toast.makeText(vo.getContext(), "coucou", 5).show();
-
+        notifications.addNotification(new Notification(group,"Notification :",beginD, endD, day, content));
+		
     }
 }

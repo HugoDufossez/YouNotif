@@ -20,7 +20,6 @@ public class NotifView {
 			listItems.add(notification.getItemMap());
 		}
 		notifList.setListItems(listItems);
-		notifList.setListAdapter(notifList.getAdapter());
 	}
 
 	
