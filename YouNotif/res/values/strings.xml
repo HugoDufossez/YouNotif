@@ -30,5 +30,12 @@
         <item>Samedi</item>
         <item>Dimanche</item>
     </string-array>
-
+    <string-array name="types">
+        <item>Periodique</item>
+        <item>Ponctuelle</item>
+    </string-array>
+	<string-array name="groups">
+        <item>a</item>
+        <item>b</item>
+    </string-array>
 </resources>

@@ -116,7 +116,8 @@
         android:layout_height="34dp"
         android:layout_column="0"
         android:layout_gravity="right|top"
-        android:layout_row="3" />
+        android:layout_row="3" 
+        android:entries="@array/types"/>
 
     <Button
         android:id="@+id/btnAdd"
@@ -164,7 +165,8 @@
         android:layout_height="34dp"
         android:layout_column="0"
         android:layout_gravity="right|top"
-        android:layout_row="1" />
+        android:layout_row="1" 
+        android:entries="@array/groups"/>
 
     <TextView
         android:id="@+id/textView0"

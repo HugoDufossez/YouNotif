@@ -5,13 +5,15 @@ import java.util.HashMap;
 public class Notification {
 	private String group;
 	private String title;
+	private String type;
 	private String content;
 	private String beginDate;
 	private String endDate;
 	private String beginHour;
 	private String endHour;
 	private String day;
-	HashMap<String, String> itemMap = new HashMap<String, String>();
+	public String drawable = String.valueOf(R.drawable.ic_action_forward);
+	HashMap<String, String> itemMap;
 	public Notification(String group, String title, String beginDate,
 			String endDate, String day,String content) {
 		super();
@@ -21,7 +23,7 @@ public class Notification {
 		setEndDate(endDate);
 		setDay(day);
 		setContent(content);
-		createItemMap(title, content, String.valueOf(R.drawable.ic_action_forward));
+		createItemMap();
 	}
 	
 	
@@ -44,17 +46,33 @@ public class Notification {
 
 
 
+	public String getType() {
+		return type;
+	}
+
+
+
+
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+
+
+
+
 	public HashMap<String, String> getItemMap() {
 		return itemMap;
 	}
 	public void setItemMap(HashMap<String, String> itemMap) {
 		this.itemMap = itemMap;
 	}
-	public void createItemMap(String title, String description, String drawableImg) {
+	public void createItemMap() {
 		this.itemMap = new HashMap<String, String>();
-		itemMap.put("titre", title);
-		itemMap.put("description", description);
-		itemMap.put("img", drawableImg);
+		itemMap.put("titre","Notification "+ type+" :");
+		itemMap.put("description", "Groupe : "+group+" Titre : "+title);
+		itemMap.put("img", drawable);
 	}
 	public String getGroup() {
 		return group;

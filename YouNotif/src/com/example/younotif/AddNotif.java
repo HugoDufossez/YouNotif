@@ -29,13 +29,18 @@ public class AddNotif extends Fragment implements OnClickListener{
     }
 	
 	public void onClick(View vo) {
-		String group = "group";
-		String title = "Notification :";
+		String group = ((Spinner)v.findViewById(R.id.spGroup)).getSelectedItem().toString();;
+		String title = ((EditText) v.findViewById(R.id.txtTitle)).getText().toString();
+		String type = ((Spinner)v.findViewById(R.id.spType)).getSelectedItem().toString();
 		String beginD =((EditText) v.findViewById(R.id.txtBeginDate)).getText().toString();
 		String endD = ((EditText)v.findViewById(R.id.txtEndDate)).getText().toString();
 		String day = ((Spinner)v.findViewById(R.id.spDay)).getSelectedItem().toString();
 		String content = ((EditText)v.findViewById(R.id.txtContent)).getText().toString();
-        notifications.addNotification(new Notification(group,"Notification :",beginD, endD, day, content));
+		Notification toAdd = new Notification(group,title,beginD, endD, day, content);
+		
+		toAdd.setType(type);
+		toAdd.createItemMap();
+        notifications.addNotification(toAdd);
 		
     }
 }

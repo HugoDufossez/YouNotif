@@ -10,6 +10,8 @@ package com.example.younotif;
 public final class R {
     public static final class array {
         public static final int days=0x7f060000;
+        public static final int groups=0x7f060002;
+        public static final int types=0x7f060001;
     }
     public static final class attr {
     }
