@@ -8,6 +8,7 @@
 	<string name="action_consult">Consulter mes moyennes</string>
 	<string name="action_settings">Réglages</string>
 	<string name="action_group">Gérer les groupes</string>
+	<string name="action_group2">Groupe :</string>
 	<string name="action_NotifType">Type :</string>
 	<string name="action_BeginDate">Date début</string>
 	<string name="action_BeginTime">Heure début :</string>
@@ -15,6 +16,7 @@
 	<string name="action_EndTime">Heure fin :</string>
 	<string name="action_NotifContent">Annonce :</string>
 	<string name="action_NotifDay">Notification le :</string>
+	<string name="action_Title">Titre :</string>
 	<string name="title_activity_group">MainActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_consult">Mes Moyennes</string>

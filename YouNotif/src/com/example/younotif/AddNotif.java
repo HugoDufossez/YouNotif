@@ -21,7 +21,7 @@ public class AddNotif extends Fragment implements OnClickListener{
         // Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.add_notif_layout, container, false);
 		v = view;
-		   btn = (Button) view.findViewById(R.id.btnAddNotif);
+		   btn = (Button) view.findViewById(R.id.btnAdd);
 		   
 		   btn.setOnClickListener(this); 
 		   
