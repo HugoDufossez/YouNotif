@@ -16,18 +16,18 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
-	private Notifications notifications;
+	//private Notifications notifications;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-
-		android.app.FragmentManager fm = getFragmentManager();
-		FragmentTransaction ft = fm.beginTransaction();
-		ft.hide(fm.findFragmentById(R.id.notifList));
-		notifications = new Notifications(new NotifView((NotifList)fm.findFragmentById(R.id.notifList)));
+		YouNotifDatabase db = new YouNotifDatabase(this);
 		
-		ft.commit();
+		//android.app.FragmentManager fm = getFragmentManager();
+		//FragmentTransaction ft = fm.beginTransaction();
+		//ft.hide(fm.findFragmentById(R.id.notifList));
+		//notifications = new Notifications(new NotifView((NotifList)fm.findFragmentById(R.id.notifList)));
+		
+		//ft.commit();
 
 	}
 
@@ -37,7 +37,9 @@ public class MainActivity extends Activity {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.main, menu);
 
-		
+        Intent intentApp = new Intent(MainActivity.this,  NotifList.class);
+		this.startActivity(intentApp);
+
 
 		return true;
 	}
@@ -47,37 +49,38 @@ public class MainActivity extends Activity {
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
-		android.app.FragmentManager fm = getFragmentManager();
-		FragmentTransaction ft = fm.beginTransaction();
+		/*android.app.FragmentManager fm = getFragmentManager();
+		FragmentTransaction ft = fm.beginTransaction();*/
 		switch (item.getItemId()) {
 		
 		case R.id.action_refresh:
 			// refresh
-			ft.show(fm.findFragmentById(R.id.notifList));
-			
-			ft.commit();
+			this.recreate();
 			return true;
 		case R.id.action_new:
 			// help action
-			ft.hide(fm.findFragmentById(R.id.notifList));
-			AddNotif an = new AddNotif();
-			an.notifications = notifications;
-			ft.add(android.R.id.content,an);
+			//ft.hide(fm.findFragmentById(R.id.notifList));
+			//AddNotif an = new AddNotif();
+			//an.notifications = notifications;
+			//ft.add(android.R.id.content,an);
 			
-			ft.addToBackStack("AddNotif");
-			ft.commit();
+			//ft.addToBackStack("AddNotif");
+			//ft.commit();
+            Intent intentApp = new Intent(MainActivity.this,  AddNotif.class);
+			this.startActivity(intentApp);
+
 			return true;
 		case R.id.action_group:
 			//setContentView(R.layout.activity_group);
-            Intent intentApp = new Intent(MainActivity.this,  GroupActivity.class);
+            Intent intentApp1 = new Intent(MainActivity.this,  GroupActivity.class);
 			//setContentView(R.layout.activity_group);
-			this.startActivity(intentApp);
+			this.startActivity(intentApp1);
 			return true;
 		case R.id.action_consult:
 			//setContentView(R.layout.activity_group);
-            Intent intentApp1 = new Intent(MainActivity.this,  ConsultActivity.class);
+            Intent intentApp2 = new Intent(MainActivity.this,  ConsultActivity.class);
 			//setContentView(R.layout.activity_group);
-			this.startActivity(intentApp1);
+			this.startActivity(intentApp2);
 			return true;
 
 		default:

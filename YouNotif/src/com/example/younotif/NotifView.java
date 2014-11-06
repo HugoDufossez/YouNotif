@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import android.widget.SimpleAdapter;
+
 public class NotifView {
 	private NotifList notifList;
 	ArrayList<HashMap<String, String>> listItems = new ArrayList<HashMap<String, String>>();
@@ -13,12 +15,20 @@ public class NotifView {
 	
 		
 	}
-	public void refresh(ArrayList<Notification> notifications){
+	public NotifView() {
+		super();
+	
+		
+	}
+
+	public void refresh(ArrayList<NotificationModel> notifications){
 		listItems = new ArrayList<HashMap<String,String>>();
 		for (Iterator iterator = notifications.iterator(); iterator.hasNext();) {
-			Notification notification = (Notification) iterator.next();
+			NotificationModel notification = (NotificationModel) iterator.next();
 			listItems.add(notification.getItemMap());
 		}
+		
+		
 		notifList.setListItems(listItems);
 	}
 

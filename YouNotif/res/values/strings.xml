@@ -20,6 +20,8 @@
 	<string name="title_activity_group">MainActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_consult">Mes Moyennes</string>
+    <string name="period">Période :</string>
+    
 	
     <string-array name="days">
         <item>Lundi</item>

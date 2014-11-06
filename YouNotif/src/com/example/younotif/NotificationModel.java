@@ -2,7 +2,7 @@ package com.example.younotif;
 
 import java.util.HashMap;
 
-public class Notification {
+public class NotificationModel {
 	private String group;
 	private String title;
 	private String type;
@@ -12,9 +12,14 @@ public class Notification {
 	private String beginHour;
 	private String endHour;
 	private String day;
+	private String period;
+	private String notifCode;
+	private String dataCreation;
+	private String author;
+
 	public String drawable = String.valueOf(R.drawable.ic_action_forward);
 	HashMap<String, String> itemMap;
-	public Notification(String group, String title, String beginDate,
+	public NotificationModel(String group, String title, String beginDate,
 			String endDate, String day,String content) {
 		super();
 		setGroup(group);
@@ -26,7 +31,28 @@ public class Notification {
 		createItemMap();
 	}
 	
-	
+	public NotificationModel(String group, String title, String beginDate,
+			String endDate,String beginHour, String endHour, String day,String content,String type,String period) {
+		super();
+		this.group = group;
+		this.title = title;
+		this.beginDate = beginDate;
+		this.beginHour = beginHour;
+		this.day = day;
+		this.content = content;
+		this.period = period;
+		this.endDate = endDate;
+		this.endHour = endHour;
+		this.type = type;
+		
+		
+		createItemMap();
+	}
+	public void setAuthorDateCode(String notifCode, String dateCrea, String author) {
+		this.notifCode = notifCode;
+		this.dataCreation = dateCrea;
+		this.author = author;
+	}
 	
 	
 	
@@ -58,8 +84,27 @@ public class Notification {
 		this.type = type;
 	}
 
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+	public String getAuthor() {
+		return author;
+	}
+	public void setDateCrea(String date) {
+		this.dataCreation = date;
+	}
+	public String getDateCrea() {
+		return dataCreation;
+	}
 
 
+	public void setNotifCode(String code) {
+		this.notifCode = code;
+	}
+	
+	public String getNotifCode() {
+		return notifCode;
+	}
 
 
 	public HashMap<String, String> getItemMap() {
@@ -115,6 +160,10 @@ public class Notification {
 	}
 	public void setDay(String day) {
 		this.day = day;
+	}
+
+	public String getPeriod() {
+		return period;
 	}
 	
 	

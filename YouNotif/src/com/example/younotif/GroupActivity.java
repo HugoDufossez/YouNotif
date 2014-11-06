@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
+import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -27,20 +28,26 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnKeyListener;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 public class GroupActivity extends Activity {
-
+	public Activity currentAct;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_group);
+		EditText textView = (EditText) findViewById(R.id.editText1);
+		textView.setSingleLine();
+		currentAct = this;
 	}
 
 	public boolean synchroWithServer(EditText tx) throws JSONException {
@@ -51,12 +58,15 @@ public class GroupActivity extends Activity {
 		HttpClient httpclient = new DefaultHttpClient();
 
 		HttpGet httpget = new HttpGet(url.replace(' ', '+'));
+		YouNotifDatabase db = new YouNotifDatabase(this);
+
 		if (android.os.Build.VERSION.SDK_INT > 9) {
 			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
 					.permitAll().build();
 			StrictMode.setThreadPolicy(policy);
 		}
 		try {
+
 			HttpResponse response = httpclient.execute(httpget);
 			String json_string = EntityUtils.toString(response.getEntity());
 			JSONObject temp1 = new JSONObject(json_string);
@@ -65,19 +75,23 @@ public class GroupActivity extends Activity {
 			if (val == 0) {
 				tx.setText("");
 				Toast.makeText(GroupActivity.this,
-						"Le groupe a ÈtÈ crÈÈ avec succËs sur le serveur !",
+						"Le groupe a √©t√© cr√©√© avec succ√©s sur le serveur !",
 						Toast.LENGTH_LONG).show();
+				db.addGroup(nameOfGroup);
+				this.recreate();
 			} else if (val == 1) {
 				tx.setText("");
 
 				Toast.makeText(
 						GroupActivity.this,
-						"Le groupe existe dÈj‡† sur le serveur, vous le suivez maintenant !",
+						"Le groupe existe d√©j√† sur le serveur, vous le suivez maintenant !",
 						Toast.LENGTH_LONG).show();
+				db.addGroup(nameOfGroup);
+				this.recreate();
 
 			} else {
 				Toast.makeText(GroupActivity.this,
-						"Les champs n'ont pas ÈtÈ saisis correctement !",
+						"Les champs n'ont pas √©t√© saisis correctement !",
 						Toast.LENGTH_LONG).show();
 
 			}
@@ -89,7 +103,7 @@ public class GroupActivity extends Activity {
 
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
-			Toast.makeText(GroupActivity.this, "ProblËme d'encodage",
+			Toast.makeText(GroupActivity.this, "Probl√®me d'encodage",
 					Toast.LENGTH_SHORT).show();
 
 		} catch (ClientProtocolException e) {
@@ -119,17 +133,41 @@ public class GroupActivity extends Activity {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.main, menu);
 		getActionBar().setTitle("Groupes");
-		String[] myStringArray = new String[4];
-		myStringArray[0] = "Promo 57";
-		myStringArray[1] = "Lille et lillois";
-		myStringArray[2] = "ISEN";
-		myStringArray[3] = "Arduino";
+		final YouNotifDatabase db = new YouNotifDatabase(this);
+		List<String> groups = db.getAllGroups();
+		String[] myStringArray = null;
+		if(groups.size()> 0){
+			 myStringArray = new String[groups.size()];
+			int counter = 0;
+		    for(String str:groups) 	{
+		    	myStringArray[counter] = str;
+		    	counter++;
+		    }
 
+		} else {
+			 myStringArray = new String[1];
+
+	    	myStringArray[0] = "Aucun groupe";
+
+		}
+		
+		
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, myStringArray);
 
 		ListView listView1 = (ListView) findViewById(R.id.groups);
 		listView1.setAdapter(adapter);
+		
+	     OnItemClickListener listener = new OnItemClickListener() {
+	         public void onItemClick(AdapterView<?> parent, View view, int position,
+	             long id) {
+	     		ListView listView2 = (ListView) findViewById(R.id.groups);
+
+	 			db.deleteGroup(listView2.getItemAtPosition(position).toString());
+	 			currentAct.recreate();
+	         }
+	       };
+	       listView1.setOnItemClickListener(listener);
 		TextView tv = (TextView) findViewById(R.id.editText1);
 		EditText textMessage = (EditText) findViewById(R.id.editText1);
 		textMessage.addTextChangedListener(new TextWatcher() {
@@ -165,6 +203,7 @@ public class GroupActivity extends Activity {
 			}
 		});
 		return true;
+	
 	}
 
 	@Override
@@ -180,9 +219,15 @@ public class GroupActivity extends Activity {
 
 		case R.id.action_refresh:
 			// refresh
+			this.recreate();
 			return true;
 		case R.id.action_new:
 			// help action
+			Intent intentApp2 = new Intent(GroupActivity.this,
+					AddNotif.class);
+			// setContentView(R.layout.activity_group);
+			this.startActivity(intentApp2);
+
 			return true;
 		case R.id.action_group:
 			// setContentView(R.layout.activity_group);
