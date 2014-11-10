@@ -17,7 +17,7 @@ public class NotificationModel {
 	private String dataCreation;
 	private String author;
 
-	public String drawable = String.valueOf(R.drawable.ic_action_forward);
+	public String drawable = String.valueOf(R.drawable.groupe);
 	HashMap<String, String> itemMap;
 	public NotificationModel(String group, String title, String beginDate,
 			String endDate, String day,String content) {
@@ -115,6 +115,7 @@ public class NotificationModel {
 	}
 	public void createItemMap() {
 		this.itemMap = new HashMap<String, String>();
+		itemMap.put("titre2", title);
 		itemMap.put("titre","Notification "+ type+" :");
 		itemMap.put("description", "Groupe : "+group+" Titre : "+title);
 		itemMap.put("img", drawable);

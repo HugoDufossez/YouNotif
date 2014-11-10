@@ -41,8 +41,12 @@ public class YouNotifDatabase extends SQLiteOpenHelper {
     private static final String KEY_HEURE_FIN_MODULE = "END_HOUR";
     private static final String KEY_NOTIF_CODE = "NOTIF_CODE";
     private static final String KEY_TARGET = "CIBLE";
-    private static final String[] COLUMNS_NOTIF = {KEY_ID_NOTIF,KEY_AUTHOR,KEY_DATE_CREATION,KEY_TITLE,KEY_CONTENT,KEY_TYPE,KEY_PERIOD,JOUR_MODULE,KEY_HEURE_MODULE,KEY_DATE_DEBUT,KEY_DATE_FIN,KEY_HEURE_FIN_MODULE,KEY_NOTIF_CODE,KEY_TARGET};
-    public static int currentNotifIndex = 0;
+    private static final String KEY_NOTIF = "IS_NOTIFIED";
+    
+    static int currentNotifIndex;
+
+    private static final String[] COLUMNS_NOTIF = {KEY_ID_NOTIF,KEY_AUTHOR,KEY_DATE_CREATION,KEY_TITLE,KEY_CONTENT,KEY_TYPE,KEY_PERIOD,JOUR_MODULE,KEY_HEURE_MODULE,KEY_DATE_DEBUT,KEY_DATE_FIN,KEY_HEURE_FIN_MODULE,KEY_NOTIF_CODE,KEY_TARGET,KEY_NOTIF};
+    
 	public YouNotifDatabase(Context context, String name,
 			CursorFactory factory, int version) {
 		super(context, name, factory, version);
@@ -72,7 +76,8 @@ public class YouNotifDatabase extends SQLiteOpenHelper {
         		  "BEGIN_HOUR TEXT,"+
         		  "END_HOUR TEXT,"+
         		  "CIBLE TEXT,"+
-        		  "NOTIF_CODE"+ ")";
+        		  "NOTIF_CODE,"+
+        		  "IS_NOTIFIED"+")";
         		  db.execSQL(CREATE_NOTIF_TABLE);
 
 	}
@@ -119,7 +124,6 @@ public class YouNotifDatabase extends SQLiteOpenHelper {
 	 
 	       if (cursor.moveToFirst()) {
 	           do {
-	        	   
 	               results.add(cursor.getString(1));
 	           } while (cursor.moveToNext());
 	       }
@@ -134,7 +138,7 @@ public class YouNotifDatabase extends SQLiteOpenHelper {
 	    Cursor cursor = 
 	            db.query(TABLE_NOTIF, // a. table
 	            COLUMNS_NOTIF, // b. column names
-	            " NOTIF_CODE = ?", // c. selections 
+	            "NOTIF_CODE = ?", // c. selections 
 	            new String[] { String.valueOf(notifCode) }, // d. selections args
 	            null, // e. group by
 	            null, // f. having
@@ -201,7 +205,6 @@ public class YouNotifDatabase extends SQLiteOpenHelper {
        if (cursor.moveToFirst()) {
            do {
         	   /*TODO*/
-        	   
                //results.add(...);
         	   //results.add(new Notification());
            } while (cursor.moveToNext());
@@ -227,6 +230,8 @@ public class YouNotifDatabase extends SQLiteOpenHelper {
         values.put(KEY_HEURE_FIN_MODULE, heure_fin_module);  
         values.put(KEY_NOTIF_CODE, notifCode);  
         values.put(KEY_TARGET, target);  
+        values.put(KEY_NOTIF, "false");  
+
         db.insert(TABLE_NOTIF, 
                 null, 
                 values); 
@@ -250,6 +255,8 @@ public class YouNotifDatabase extends SQLiteOpenHelper {
         values.put(KEY_HEURE_FIN_MODULE, notif.getEndHour());  
         values.put(KEY_NOTIF_CODE, notif.getNotifCode());  
         values.put(KEY_TARGET, notif.getGroup());  
+        values.put(KEY_NOTIF, "false");  
+
         db.insert(TABLE_NOTIF, 
                 null, 
                 values); 
@@ -293,6 +300,20 @@ public class YouNotifDatabase extends SQLiteOpenHelper {
 	 
 	    db.close();
 	}
+	public void updateNotifAlert(String notifCode,String val){
+	    SQLiteDatabase db = this.getWritableDatabase();
+	    
+	    ContentValues values = new ContentValues();
+	    values.put("IS_NOTIFIED", val);  
+	 
+	    int i = db.update(TABLE_NOTIF, 
+	            values, 
+	            KEY_NOTIF_CODE+" = ?", 
+	            new String[] { String.valueOf(notifCode) });
+	 
+	    db.close();
+	}
+
 	public void deleteGroup(int id){
         SQLiteDatabase db = this.getWritableDatabase();
  

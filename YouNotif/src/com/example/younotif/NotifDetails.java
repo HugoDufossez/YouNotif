@@ -5,9 +5,12 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import android.app.Activity;
+import android.content.ContentUris;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.provider.CalendarContract;
+import android.provider.CalendarContract; 
+import android.provider.CalendarContract.Events;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -88,8 +91,11 @@ public class NotifDetails extends Activity implements OnClickListener {
 			endTime.set(Integer.parseInt(m), Integer.parseInt(y),
 					Integer.parseInt(d), Integer.parseInt(endH[0]),
 					Integer.parseInt(endH[1]));
-
+			long eventID =(long)Long.valueOf(notif.getNotifCode().replace("notif_", ""));
+			
+			Uri uri = ContentUris.withAppendedId(Events.CONTENT_URI, eventID);
 			Intent intent = new Intent(Intent.ACTION_EDIT)
+					.setData(uri)
 					.setType("vnd.android.cursor.item/event")
 					// Title
 					.putExtra("title", notif.getTitle())
@@ -103,6 +109,8 @@ public class NotifDetails extends Activity implements OnClickListener {
 							endTime.getTimeInMillis());
 
 			startActivity(intent);
+			
+			
 		}
 		// intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,
 		// calDate.getTimeInMillis());

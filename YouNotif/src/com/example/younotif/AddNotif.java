@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 public class AddNotif extends Activity implements OnClickListener{
@@ -68,6 +69,7 @@ public class AddNotif extends Activity implements OnClickListener{
 		final Context locCt = this.ct;
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+            	
         		String title = ((EditText) findViewById(R.id.txtTitle)).getText().toString();
             	String group = ((Spinner) findViewById(R.id.spGroup)).getSelectedItem().toString();;
 
@@ -77,8 +79,8 @@ public class AddNotif extends Activity implements OnClickListener{
         		String day = ((Spinner) findViewById(R.id.spDay)).getSelectedItem().toString();
         		String content = ((EditText) findViewById(R.id.txtContent)).getText().toString();
         		String period = ((EditText) findViewById(R.id.periodField)).getText().toString();
-        		String endHour = ((EditText) findViewById(R.id.txtEndHour)).getText().toString();
-        		String beginHour = ((EditText) findViewById(R.id.txtBeginHour)).getText().toString();
+        		String endHour = ((TimePicker) findViewById(R.id.TEndHour)).getCurrentHour()+":"+((TimePicker) findViewById(R.id.TEndHour)).getCurrentMinute();
+        		String beginHour = ((TimePicker) findViewById(R.id.TBeginHour)).getCurrentHour()+":"+((TimePicker) findViewById(R.id.TBeginHour)).getCurrentMinute();
 
         		NotificationModel toAdd = new NotificationModel(group,  title, beginD, endD, beginHour,  endHour,  day, content, type, period);
         		
@@ -91,7 +93,7 @@ public class AddNotif extends Activity implements OnClickListener{
         						Toast.LENGTH_SHORT).show();
 
         			} else if(bool == true){
-        				Toast.makeText(AddNotif.this, "Ajout rÃ©ussi",
+        				Toast.makeText(AddNotif.this, "Ajout réussi",
         						Toast.LENGTH_SHORT).show();
 
         			}
@@ -124,10 +126,10 @@ public class AddNotif extends Activity implements OnClickListener{
 
 			return true;
 		case R.id.action_group:
-			// setContentView(R.layout.activity_group);
+			
 			Intent intentApp = new Intent(AddNotif.this,
 					GroupActivity.class);
-			// setContentView(R.layout.activity_group);
+			
 			this.startActivity(intentApp);
 			return true;
 		case R.id.action_consult:

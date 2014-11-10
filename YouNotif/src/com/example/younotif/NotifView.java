@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import android.widget.SimpleAdapter;
-
 public class NotifView {
 	private NotifList notifList;
 	ArrayList<HashMap<String, String>> listItems = new ArrayList<HashMap<String, String>>();
@@ -27,9 +25,7 @@ public class NotifView {
 			NotificationModel notification = (NotificationModel) iterator.next();
 			listItems.add(notification.getItemMap());
 		}
-		
-		
-		notifList.setListItems(listItems);
+		//notifList.setListItems(listItems);
 	}
 
 	

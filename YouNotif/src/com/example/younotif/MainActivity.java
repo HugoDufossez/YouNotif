@@ -1,8 +1,13 @@
 package com.example.younotif;
 
+import java.util.Calendar;
+
 import android.R.layout;
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.FragmentTransaction;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,11 +22,24 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	//private Notifications notifications;
+	public void planifierNotif(int id,String notificationTitle,String content,int day,int month,int year, int hour,int min){
+		AlarmManager am =  (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+    	NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);        
+    	 
+    	Calendar cal = Calendar.getInstance();
+        cal.set(year, month, day, hour, min);
+ 
+        Intent intent = new Intent(this, TimeAlarm.class);
+        PendingIntent operation = PendingIntent.getBroadcast(this, id, intent, PendingIntent.FLAG_ONE_SHOT);
+        am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), operation);
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		YouNotifDatabase db = new YouNotifDatabase(this);
-		
+		planifierNotif(42,"test", "test", 2, 11, 2014, 10, 46);
+
 		//android.app.FragmentManager fm = getFragmentManager();
 		//FragmentTransaction ft = fm.beginTransaction();
 		//ft.hide(fm.findFragmentById(R.id.notifList));

@@ -27,59 +27,83 @@ public final class R {
         public static final int activity_vertical_margin=0x7f040001;
     }
     public static final class drawable {
-        public static final int ic_action_forward=0x7f020000;
-        public static final int ic_action_new=0x7f020001;
-        public static final int ic_action_refresh=0x7f020002;
-        public static final int ic_launcher=0x7f020003;
+        public static final int card_background=0x7f020000;
+        public static final int card_background_selector=0x7f020001;
+        public static final int card_state_pressed=0x7f020002;
+        public static final int delete=0x7f020003;
+        public static final int groupe=0x7f020004;
+        public static final int ic_action_forward=0x7f020005;
+        public static final int ic_action_new=0x7f020006;
+        public static final int ic_action_refresh=0x7f020007;
+        public static final int ic_communities=0x7f020008;
+        public static final int ic_drawer=0x7f020009;
+        public static final int ic_drawer1=0x7f02000a;
+        public static final int ic_drawer2=0x7f02000b;
+        public static final int ic_home=0x7f02000c;
+        public static final int ic_launcher=0x7f02000d;
     }
     public static final class id {
-        public static final int TextView04=0x7f09000d;
-        public static final int TextView06=0x7f09001d;
-        public static final int TextView08=0x7f09001e;
-        public static final int TextView10=0x7f09001f;
-        public static final int TextView12=0x7f090020;
-        public static final int TextView15=0x7f090021;
-        public static final int TextView17=0x7f090022;
-        public static final int action_consult=0x7f09002f;
-        public static final int action_group=0x7f09002d;
-        public static final int action_new=0x7f09002c;
-        public static final int action_refresh=0x7f09002b;
-        public static final int action_settings=0x7f09002e;
-        public static final int btnAdd=0x7f090010;
-        public static final int btnCalendar=0x7f09002a;
-        public static final int description=0x7f09001a;
-        public static final int detailTxtBeginD=0x7f090027;
-        public static final int detailTxtBeginHour=0x7f090028;
-        public static final int detailTxtContent=0x7f090024;
-        public static final int detailTxtDay=0x7f090026;
-        public static final int detailTxtEndD=0x7f090025;
-        public static final int detailTxtEndHour=0x7f090029;
-        public static final int detailTxtPeriod=0x7f09000b;
-        public static final int detailTxtTitle=0x7f090012;
-        public static final int detailTxtType=0x7f090023;
-        public static final int detailTxtgroup=0x7f090009;
-        public static final int editText1=0x7f090002;
-        public static final int groups=0x7f090003;
-        public static final int img=0x7f09001b;
+        public static final int TBeginHour=0x7f090013;
+        public static final int TEndHour=0x7f090017;
+        public static final int TextView02=0x7f090012;
+        public static final int TextView03=0x7f090018;
+        public static final int TextView04=0x7f090014;
+        public static final int TextView05=0x7f090016;
+        public static final int TextView06=0x7f090028;
+        public static final int TextView08=0x7f090029;
+        public static final int TextView10=0x7f09002a;
+        public static final int TextView12=0x7f09002b;
+        public static final int TextView15=0x7f09002c;
+        public static final int TextView17=0x7f09002d;
+        public static final int action_consult=0x7f09003d;
+        public static final int action_group=0x7f09003b;
+        public static final int action_new=0x7f09003a;
+        public static final int action_refresh=0x7f090039;
+        public static final int action_settings=0x7f09003c;
+        public static final int btnAdd=0x7f09001c;
+        public static final int btnCalendar=0x7f090038;
+        public static final int calendarView1=0x7f090011;
+        public static final int card_header_inner_frame=0x7f090002;
+        public static final int content_frame=0x7f090025;
+        public static final int description=0x7f090023;
+        public static final int detail=0x7f09001d;
+        public static final int detailTxtBeginD=0x7f090035;
+        public static final int detailTxtBeginHour=0x7f090036;
+        public static final int detailTxtContent=0x7f090031;
+        public static final int detailTxtDay=0x7f090034;
+        public static final int detailTxtEndD=0x7f090032;
+        public static final int detailTxtEndHour=0x7f090037;
+        public static final int detailTxtPeriod=0x7f09002f;
+        public static final int detailTxtTitle=0x7f090030;
+        public static final int detailTxtType=0x7f09002e;
+        public static final int detailTxtgroup=0x7f090033;
+        public static final int drawer_layout=0x7f090024;
+        public static final int editText1=0x7f090003;
+        public static final int groupName=0x7f09001f;
+        public static final int groups=0x7f090004;
+        public static final int img=0x7f090021;
+        public static final int imgGroup=0x7f09001e;
+        public static final int left_drawer=0x7f090026;
         public static final int linearLayout1=0x7f090001;
-        public static final int period=0x7f090017;
-        public static final int periodField=0x7f090018;
-        public static final int spDay=0x7f09000c;
-        public static final int spGroup=0x7f090014;
-        public static final int spType=0x7f09000f;
-        public static final int textView0=0x7f090015;
-        public static final int textView1=0x7f090013;
-        public static final int textView10=0x7f090004;
-        public static final int textView2=0x7f090005;
-        public static final int textView3=0x7f09001c;
-        public static final int textView4=0x7f090007;
-        public static final int titre=0x7f090019;
-        public static final int txtBeginDate=0x7f090008;
-        public static final int txtBeginHour=0x7f09000a;
-        public static final int txtContent=0x7f090006;
-        public static final int txtEndDate=0x7f09000e;
-        public static final int txtEndHour=0x7f090011;
-        public static final int txtTitle=0x7f090016;
+        public static final int list=0x7f090006;
+        public static final int notifList=0x7f090005;
+        public static final int period=0x7f09001a;
+        public static final int periodField=0x7f09001b;
+        public static final int spDay=0x7f090019;
+        public static final int spGroup=0x7f090008;
+        public static final int spType=0x7f09000c;
+        public static final int textView0=0x7f090009;
+        public static final int textView1=0x7f09000b;
+        public static final int textView10=0x7f090007;
+        public static final int textView2=0x7f09000d;
+        public static final int textView3=0x7f090027;
+        public static final int textView4=0x7f09000f;
+        public static final int titre=0x7f090022;
+        public static final int titre2=0x7f090020;
+        public static final int txtBeginDate=0x7f090010;
+        public static final int txtContent=0x7f09000e;
+        public static final int txtEndDate=0x7f090015;
+        public static final int txtTitle=0x7f09000a;
         public static final int webView1=0x7f090000;
     }
     public static final class layout {
@@ -88,8 +112,11 @@ public final class R {
         public static final int activity_main=0x7f030002;
         public static final int activity_notif_list_layout=0x7f030003;
         public static final int add_notif_layout=0x7f030004;
-        public static final int list_item_layout=0x7f030005;
-        public static final int notif_detail_layout=0x7f030006;
+        public static final int element_menu=0x7f030005;
+        public static final int group_list_item_layout=0x7f030006;
+        public static final int list_item_layout=0x7f030007;
+        public static final int menu_layout=0x7f030008;
+        public static final int notif_detail_layout=0x7f030009;
     }
     public static final class menu {
         public static final int consult=0x7f080000;
@@ -137,6 +164,8 @@ public final class R {
         Base application theme for API 14+. This theme completely replaces
         AppBaseTheme from BOTH res/values/styles.xml and
         res/values-v11/styles.xml on API 14+ devices.
+
+
     
  API 14 theme customizations can go here. 
          */

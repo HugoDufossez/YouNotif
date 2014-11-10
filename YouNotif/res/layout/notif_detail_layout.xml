@@ -175,6 +175,6 @@
         android:layout_column="2"
         android:layout_gravity="left|center_vertical"
         android:layout_row="44"
-        android:text="Button" />
+        android:text="Ajouter au calendrier" />
 
 </GridLayout>

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
@@ -15,6 +17,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.example.younotif.R.id;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -33,6 +37,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView;
@@ -40,11 +45,18 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 public class GroupActivity extends Activity {
 	public Activity currentAct;
+	public String drawable = String.valueOf(R.drawable.delete);
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_group);
+		
+		ListView lv = (ListView)findViewById(id.groups);
+		lv.addHeaderView(new View(this));
+	
+		lv.addFooterView(new View(this));
+		
 		EditText textView = (EditText) findViewById(R.id.editText1);
 		textView.setSingleLine();
 		currentAct = this;
@@ -135,25 +147,32 @@ public class GroupActivity extends Activity {
 		getActionBar().setTitle("Groupes");
 		final YouNotifDatabase db = new YouNotifDatabase(this);
 		List<String> groups = db.getAllGroups();
-		String[] myStringArray = null;
+		ArrayList<HashMap<String, String>> myStringArray = null;
 		if(groups.size()> 0){
-			 myStringArray = new String[groups.size()];
+			 myStringArray = new ArrayList<HashMap<String,String>>();
 			int counter = 0;
 		    for(String str:groups) 	{
-		    	myStringArray[counter] = str;
+		    	HashMap<String, String> tmp = new HashMap<String, String>();
+		    	
+		    	tmp.put("imgGroup",drawable);
+		    	tmp.put("groupName",str);
+		    	myStringArray.add(counter,tmp );
 		    	counter++;
 		    }
 
 		} else {
-			 myStringArray = new String[1];
-
-	    	myStringArray[0] = "Aucun groupe";
+			myStringArray = new ArrayList<HashMap<String,String>>();
+			HashMap<String, String> tmp = new HashMap<String, String>();
+			
+			tmp.put("imgGroup",drawable);
+			tmp.put("groupName","Aucun groupe");
+	    	myStringArray.add(tmp);
 
 		}
+		SimpleAdapter adapter = new SimpleAdapter(this, myStringArray,
+				R.layout.group_list_item_layout, new String[] { "imgGroup","groupName"}, new int[] {  R.id.imgGroup,R.id.groupName});
 		
 		
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1, myStringArray);
 
 		ListView listView1 = (ListView) findViewById(R.id.groups);
 		listView1.setAdapter(adapter);
