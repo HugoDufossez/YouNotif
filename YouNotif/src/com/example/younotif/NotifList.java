@@ -285,7 +285,7 @@ public class NotifList extends Activity implements OnItemClickListener {
 			}
 		} else {
 			itemMap.put("titre", "Avertissement");
-			itemMap.put("description", "Aucune notification Ã  afficher");
+			itemMap.put("description", "Aucune notification à afficher");
 			/* itemMap.put("img", String.valueOf(R.drawable.ic_action_forward)); */
 
 			listItems.add(itemMap);

@@ -91,7 +91,7 @@ public class GroupActivity extends Activity {
 			if (val == 0) {
 				tx.setText("");
 				Toast.makeText(GroupActivity.this,
-						"Le groupe a √©t√© cr√©√© avec succ√©s sur le serveur !",
+						"Le groupe a ÈtÈ crÈÈ avec succËs sur le serveur !",
 						Toast.LENGTH_LONG).show();
 				db.addGroup(nameOfGroup);
 				this.recreate();
@@ -100,7 +100,7 @@ public class GroupActivity extends Activity {
 
 				Toast.makeText(
 						GroupActivity.this,
-						"Le groupe existe d√©j√† sur le serveur, vous le suivez maintenant !",
+						"Le groupe existe dÈj‡† sur le serveur, vous le suivez maintenant !",
 						Toast.LENGTH_LONG).show();
 				db.addGroup(nameOfGroup);
 				this.recreate();
@@ -117,7 +117,7 @@ public class GroupActivity extends Activity {
 				}
 				Toast.makeText(
 						GroupActivity.this,
-						"Synchronisation avec mesmoyennes.fr r√©ussie !"+ obj.length() +" modules sont li√©es !",
+						"Synchronisation avec mesmoyennes.fr rÈussie !"+ obj.length() +" modules sont liÈes !",
 						Toast.LENGTH_LONG).show();
 				//db.addGroup(nameOfGroup);
 				this.recreate();
@@ -125,7 +125,7 @@ public class GroupActivity extends Activity {
 			} 
 			else {
 				Toast.makeText(GroupActivity.this,
-						"Les champs n'ont pas √©t√© saisis correctement !",
+						"Les champs n'ont pas ÈtÈ saisis correctement !",
 						Toast.LENGTH_LONG).show();
 
 			}
@@ -137,7 +137,7 @@ public class GroupActivity extends Activity {
 
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
-			Toast.makeText(GroupActivity.this, "Probl√®me d'encodage",
+			Toast.makeText(GroupActivity.this, "ProblËme d'encodage",
 					Toast.LENGTH_SHORT).show();
 
 		} catch (ClientProtocolException e) {
