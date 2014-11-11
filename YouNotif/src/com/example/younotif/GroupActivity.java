@@ -6,6 +6,7 @@ import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
@@ -15,6 +16,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,6 +24,7 @@ import com.example.younotif.R.id;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.text.Editable;
@@ -46,9 +49,11 @@ import android.widget.ArrayAdapter;
 public class GroupActivity extends Activity {
 	public Activity currentAct;
 	public String drawable = String.valueOf(R.drawable.delete);
+	private YouNotifDatabase db;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		db = new YouNotifDatabase(this);
 
 		setContentView(R.layout.activity_group);
 		
@@ -70,7 +75,6 @@ public class GroupActivity extends Activity {
 		HttpClient httpclient = new DefaultHttpClient();
 
 		HttpGet httpget = new HttpGet(url.replace(' ', '+'));
-		YouNotifDatabase db = new YouNotifDatabase(this);
 
 		if (android.os.Build.VERSION.SDK_INT > 9) {
 			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
@@ -101,7 +105,25 @@ public class GroupActivity extends Activity {
 				db.addGroup(nameOfGroup);
 				this.recreate();
 
-			} else {
+			}else if (val == 3) {
+				tx.setText("");
+				String nameMod = "";
+				JSONArray obj = temp1.getJSONArray("groups");
+				
+				for(int i=0 ; i< obj.length(); i++){   // iterate through jsonArray
+					nameMod = obj.getString(i);
+					 //nameMod =  jsonObject.toString();
+					db.addGroup(nameMod);
+				}
+				Toast.makeText(
+						GroupActivity.this,
+						"Synchronisation avec mesmoyennes.fr réussie !"+ obj.length() +" modules sont liées !",
+						Toast.LENGTH_LONG).show();
+				//db.addGroup(nameOfGroup);
+				this.recreate();
+
+			} 
+			else {
 				Toast.makeText(GroupActivity.this,
 						"Les champs n'ont pas été saisis correctement !",
 						Toast.LENGTH_LONG).show();
@@ -147,13 +169,14 @@ public class GroupActivity extends Activity {
 		getActionBar().setTitle("Groupes");
 		final YouNotifDatabase db = new YouNotifDatabase(this);
 		List<String> groups = db.getAllGroups();
+		final List<String> ordre = new LinkedList<String>();
 		ArrayList<HashMap<String, String>> myStringArray = null;
 		if(groups.size()> 0){
 			 myStringArray = new ArrayList<HashMap<String,String>>();
 			int counter = 0;
 		    for(String str:groups) 	{
 		    	HashMap<String, String> tmp = new HashMap<String, String>();
-		    	
+		    	ordre.add(str);
 		    	tmp.put("imgGroup",drawable);
 		    	tmp.put("groupName",str);
 		    	myStringArray.add(counter,tmp );
@@ -182,7 +205,11 @@ public class GroupActivity extends Activity {
 	             long id) {
 	     		ListView listView2 = (ListView) findViewById(R.id.groups);
 
-	 			db.deleteGroup(listView2.getItemAtPosition(position).toString());
+	 			db.deleteGroup(ordre.get(position-1));
+	 		    
+				/*Toast.makeText(GroupActivity.this, "Position : "+position,
+						Toast.LENGTH_SHORT).show();*/
+
 	 			currentAct.recreate();
 	         }
 	       };

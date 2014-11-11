@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -49,7 +50,8 @@ import android.widget.Toast;
 public class NotifList extends Activity implements OnItemClickListener {
 	private ArrayList<HashMap<String, String>> listItems = new ArrayList<HashMap<String, String>>();
 	private HashMap<String, String> itemMap = new HashMap<String, String>();
-	private SimpleAdapter adapter;
+	private ListItemAdapter adapter;
+	private List<NotificationModel> lfinal;
 	
 	public static final int ID_NOTIFICATION = 2014;
 
@@ -83,52 +85,148 @@ public class NotifList extends Activity implements OnItemClickListener {
 		return true;
 	}
 
-	public void planNotifFor48Hour() {
+	public void planNotifFor48Hour(List<NotificationModel> list) {
 		YouNotifDatabase db = new YouNotifDatabase(this);
-		List<NotificationModel> notifs = db.getAllNotifs();
+		List<NotificationModel> notifs = list;
 		Date todayD = new Date();
+		int id = 0;
 		if (notifs.size() > 0) {
 			for (NotificationModel notif : notifs) {
 				String notDate = notif.getBeginDate();
+				String endDate = notif.getBeginDate();
+
 				String[] dateSplit;
+				String[] endDateSplit;
+				String[] beginHourSplit;
 				GregorianCalendar currentDate = new GregorianCalendar();
+				GregorianCalendar endDateCal = new GregorianCalendar();
 
 				if (notDate.contains("-")) {
-
+					id++;
 					dateSplit = notDate.split("-");
+					endDateSplit = endDate.split("-");
+
 					if (estValide(Integer.parseInt(dateSplit[2]),
 							Integer.parseInt(dateSplit[1]),
 							Integer.parseInt(dateSplit[0]))) {
 						currentDate = new GregorianCalendar(
 								Integer.parseInt(dateSplit[2]),
-								Integer.parseInt(dateSplit[1]),
+								Integer.parseInt(dateSplit[1])-1,
 								Integer.parseInt(dateSplit[0]));
-						int nbDay = (int) TimeUnit.MILLISECONDS
-								.toDays(currentDate.getTimeInMillis()
-										- todayD.getTime());
-						int min = (nbDay * 24 * 60);
-						planifierNotif(1, notif.getTitle(), notif.getContent(),
-								min);
+						endDateCal = new GregorianCalendar(
+								Integer.parseInt(endDateSplit[2]),
+								Integer.parseInt(endDateSplit[1])-1,
+								Integer.parseInt(endDateSplit[0]));
 
+					    Date aujourdhui = new Date(System.currentTimeMillis());
+					 
+					    // Obtenir la difference en milliseconde
+					    long diff = -aujourdhui.getTime() + currentDate.getTimeInMillis();
+					    	if(diff > 0) {
+								planifierNotif(id, notif.getTitle(), notif.getContent(),
+										diff);
+								/*Toast.makeText(
+										NotifList.this,
+										notif.getTitle()+" - Temps : "+diff+" - "+currentDate.toString(),
+										Toast.LENGTH_LONG).show();*/
+						    }
 					}
 
 				} else if (notDate.contains("/")) {
-
+					id++;
 					dateSplit = notDate.split("/");
+					endDateSplit = endDate.split("/");
+					beginHourSplit = notif.getBeginHour().split(":");
 					if (estValide(Integer.parseInt(dateSplit[2]),
 							Integer.parseInt(dateSplit[1]),
 							Integer.parseInt(dateSplit[0]))) {
 
 						currentDate = new GregorianCalendar(
 								Integer.parseInt(dateSplit[2]),
-								Integer.parseInt(dateSplit[1]),
-								Integer.parseInt(dateSplit[0]));
-						int nbDay = (int) TimeUnit.MILLISECONDS
-								.toDays(currentDate.getTimeInMillis()
-										- todayD.getTime());
-						int min = (nbDay * 24 * 60);
-						planifierNotif(1, notif.getTitle(), notif.getContent(),
-								min);
+								Integer.parseInt(dateSplit[1])-1,
+								Integer.parseInt(dateSplit[0]),
+								Integer.parseInt(beginHourSplit[0]),
+								Integer.parseInt(beginHourSplit[1])
+								);
+						endDateCal = new GregorianCalendar(
+								Integer.parseInt(endDateSplit[2]),
+								Integer.parseInt(endDateSplit[1])-1,
+								Integer.parseInt(endDateSplit[0]));
+
+					    Date aujourdhui = new Date(System.currentTimeMillis());
+					    long diff = -(long)aujourdhui.getTime() + (long)currentDate.getTimeInMillis();
+					    long diffEnd = - aujourdhui.getTime() + endDateCal.getTimeInMillis();
+						if(diff > 0 || diffEnd < 0){
+						       Calendar calendar = Calendar.getInstance();
+					           calendar.set(Integer.parseInt(dateSplit[2]),Integer.parseInt(dateSplit[1])-1,Integer.parseInt(dateSplit[0]),Integer.parseInt(beginHourSplit[0]),Integer.parseInt(beginHourSplit[1]));
+
+								if(notif.getType().compareTo("Periodique") == 0) {
+									diff = -(long)aujourdhui.getTime() + (long)currentDate.getTimeInMillis();
+									diff = calendar.getTimeInMillis();
+
+									if (diff > 0 && diffEnd < 0) {
+										if (Integer.parseInt(notif.getPeriod()) < 21) {
+											
+											diff = -(long)aujourdhui.getTime() + (long)currentDate.getTimeInMillis();
+											int days = 21/Integer.parseInt(notif.getPeriod());
+											for(int i = 1; i <= days; i++){
+												long diff1 = calendar.getTimeInMillis();
+												/*Toast.makeText(
+														NotifList.this,
+														notif.getTitle()+" - "+days+" - "+diff,
+														Toast.LENGTH_LONG).show();*/
+
+											    planifierNotif(id, notif.getTitle(), notif.getContent(),
+														diff1+(Integer.parseInt(notif.getPeriod())*24*60*60*1000));
+											    id++;
+
+											}
+
+										}
+									    
+
+									} else if(diff < 0 && diffEnd < 0){
+									       calendar = Calendar.getInstance();
+								           calendar.set(Integer.parseInt(dateSplit[2]),Integer.parseInt(dateSplit[1])-1,Integer.parseInt(dateSplit[0]),Integer.parseInt(beginHourSplit[0]),Integer.parseInt(beginHourSplit[1]));
+
+										diff = -(long)aujourdhui.getTime() + (long)currentDate.getTimeInMillis();
+										diff = calendar.getTimeInMillis();
+
+										if (diff > 0 && diffEnd < 0) {
+
+											diff = calendar.getTimeInMillis();
+
+										    planifierNotif(id, notif.getTitle(), notif.getContent(),
+													diff);
+											/*Toast.makeText(
+													NotifList.this,
+													notif.getTitle()+" - - "+diff,
+													Toast.LENGTH_LONG).show();*/
+
+										}
+
+									}
+								} else if(notif.getType().compareTo("Ponctuelle") == 0) {
+									   calendar = Calendar.getInstance();
+							           calendar.set(Integer.parseInt(dateSplit[2]),Integer.parseInt(dateSplit[1])-1,Integer.parseInt(dateSplit[0]),Integer.parseInt(beginHourSplit[0]),Integer.parseInt(beginHourSplit[1]));
+
+									diff = -(long)aujourdhui.getTime() + (long)currentDate.getTimeInMillis();
+									diff = calendar.getTimeInMillis();
+									/*Toast.makeText(
+											NotifList.this,
+											notif.getTitle()+" | "+diff,
+											Toast.LENGTH_LONG).show();*/
+									if (diff > 0 && diffEnd < 0) {
+
+										diff = calendar.getTimeInMillis();
+
+									    planifierNotif(id, notif.getTitle(), notif.getContent(),
+												diff);
+									}
+									
+								}
+							
+						}
 					}
 				}
 			}
@@ -138,32 +236,22 @@ public class NotifList extends Activity implements OnItemClickListener {
 	}
 
 	public void planifierNotif(int id, String notificationTitle,
-			String content, int min1) {
-		AlarmManager alarmManager = (AlarmManager) getApplicationContext()
-				.getSystemService(getBaseContext().ALARM_SERVICE);
-		Calendar cal = Calendar.getInstance();
+			String content, long ms) {
+		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 		// Date dateToNotif = new Date(year,month,day,hour,min);
-		Date today = new Date();
 
-		cal.setTimeInMillis(System.currentTimeMillis());
-		if (min1 < 60) {
-			// cal.add(Calendar.MINUTE, min1);
 
-		} else if (min1 >= 60) {
-			// int currentmin = min1%60;
-			// cal.add(Calendar.HOUR, currentmin);
-			// cal.add(Calendar.MINUTE, (min1 - currentmin*60));
-
-		}
-
-		Intent intent = new Intent(this, TimeAlarm.class);
+		Intent intent = new Intent(getApplicationContext(), TimeAlarm.class);
 		intent.putExtra("title", notificationTitle);
 		intent.putExtra("message", content);
-		PendingIntent operation = PendingIntent.getBroadcast(this,
+		intent.putExtra("ms", ms);
+
+		/*PendingIntent operation = PendingIntent.getBroadcast(this,
 				(int) cal.getTimeInMillis(), intent,
-				PendingIntent.FLAG_ONE_SHOT);
-		alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
-				operation);
+				PendingIntent.FLAG_ONE_SHOT);*/
+		PendingIntent Notifysender = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		alarmManager.set(AlarmManager.RTC_WAKEUP, ms,Notifysender);
+		/*alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, ms,0, Notifysender);*/
 	}
 
 	protected void onCreate(Bundle savedInstanceState) {
@@ -174,17 +262,26 @@ public class NotifList extends Activity implements OnItemClickListener {
 		
 
 		
-		planNotifFor48Hour();
 		setContentView(R.layout.activity_notif_list_layout);
 		ListView lv = (ListView) findViewById(android.R.id.list);
 		lv.addHeaderView(new View(this));
-
+		lfinal = new LinkedList<NotificationModel>();
 		lv.addFooterView(new View(this));
 		if (notifs.size() > 0) {
 			for (NotificationModel notif : notifs) {
-				notif.createItemMap();
-				HashMap<String, String> itemMap1 = notif.itemMap;
-				listItems.add(itemMap1);
+						notif.createItemMap();
+						HashMap<String, String> itemMap1 = notif.itemMap;
+						listItems.add(itemMap1);
+						lfinal.add(notif);
+						/*Toast.makeText(
+								NotifList.this,
+								notif.getType(),
+								Toast.LENGTH_LONG).show();*/
+
+			}
+			if(lfinal.size() > 0){
+				planNotifFor48Hour(lfinal);
+
 			}
 		} else {
 			itemMap.put("titre", "Avertissement");
@@ -195,12 +292,12 @@ public class NotifList extends Activity implements OnItemClickListener {
 
 		}
 
-		adapter = new SimpleAdapter(
+		adapter = new ListItemAdapter(
 				this,
 				listItems,
 				R.layout.list_item_layout,
-				new String[] { "titre2", "titre", "description", "img", },
-				new int[] { R.id.titre2, R.id.titre, R.id.description, R.id.img });
+				new String[] { "titre2", "titre", "description","originGroup","img" },
+				new int[] { R.id.titre2, R.id.titre, R.id.description,R.id.originGroup ,R.id.img });
 		lv.setAdapter(adapter);
 		lv.setOnItemClickListener(this);
 	}
@@ -331,7 +428,7 @@ public class NotifList extends Activity implements OnItemClickListener {
 		return adapter;
 	}
 
-	public void setAdapter(SimpleAdapter adapter) {
+	public void setAdapter(ListItemAdapter adapter) {
 		this.adapter = adapter;
 	}
 
@@ -340,12 +437,15 @@ public class NotifList extends Activity implements OnItemClickListener {
 			long id) {
 		// TODO Auto-generated method stub
 		YouNotifDatabase.currentNotifIndex = position;
-		YouNotifDatabase db = new YouNotifDatabase(this);
-		if (db.getAllNotifs().size() > 0) {
+		//YouNotifDatabase db = new YouNotifDatabase(this);
+		if (lfinal.size() > 0) {
 			Intent intentApp1 = new Intent(NotifList.this, NotifDetails.class);
 			this.startActivity(intentApp1);
 
 		}
+	}
+	public List<NotificationModel> getDisplayedNotifs() {
+		return lfinal;
 	}
 
 }

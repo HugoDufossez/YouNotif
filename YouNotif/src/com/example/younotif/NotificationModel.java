@@ -117,7 +117,8 @@ public class NotificationModel {
 		this.itemMap = new HashMap<String, String>();
 		itemMap.put("titre2", title);
 		itemMap.put("titre","Notification "+ type+" :");
-		itemMap.put("description", "Groupe : "+group+" Titre : "+title);
+		itemMap.put("description", this.content);
+		itemMap.put("originGroup", "Groupe : " + this.group);
 		itemMap.put("img", drawable);
 	}
 	public String getGroup() {

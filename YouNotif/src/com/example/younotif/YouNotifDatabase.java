@@ -1,5 +1,7 @@
 package com.example.younotif;
 
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -272,13 +274,47 @@ public class YouNotifDatabase extends SQLiteOpenHelper {
 	 
 	       if (cursor.moveToFirst()) {
 	           do {
-	        	   NotificationModel currentnotif = new NotificationModel(cursor.getString(12), cursor.getString(3), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(7), cursor.getString(4), cursor.getString(6), cursor.getString(5));
-	        	   currentnotif.setAuthorDateCode(cursor.getString(13), cursor.getString(2), cursor.getString(1));
-	        	   if(this.existGroup(currentnotif.getGroup())){
-		        	   results.add(currentnotif);
+	        	   NotificationModel notif = new NotificationModel(cursor.getString(12), cursor.getString(3), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(7), cursor.getString(4), cursor.getString(6), cursor.getString(5));
+					String[] dateSplit = notif.getBeginDate().split("/");
+					String[] endDateSplit = notif.getEndDate().split("/");
+					String beginHour = notif.getBeginHour().replace("\"", "");
+					String[] begHourSplit = beginHour.split(":");
 
-	        	   }
-	        	   
+						GregorianCalendar currentDate = new GregorianCalendar(
+								Integer.parseInt(dateSplit[2]),
+								Integer.parseInt(dateSplit[1])-1,
+								Integer.parseInt(dateSplit[0]),
+								Integer.parseInt(begHourSplit[0]),
+								Integer.parseInt(begHourSplit[1])
+								);
+						GregorianCalendar endDateCal = new GregorianCalendar(
+								Integer.parseInt(endDateSplit[2]),
+								Integer.parseInt(endDateSplit[1])-1,
+								Integer.parseInt(endDateSplit[0]));
+
+					    Date aujourdhui = new Date(System.currentTimeMillis());
+					    long diff = -(long)aujourdhui.getTime() + (long)currentDate.getTimeInMillis();
+					    long diffEnd = - aujourdhui.getTime() + endDateCal.getTimeInMillis();
+			        	 notif.setAuthorDateCode(cursor.getString(13), cursor.getString(2), cursor.getString(1));
+
+						if(diff > 0 || diffEnd > 0){
+						String typeNot = notif.getType();
+						
+						 if(diff > 0 && typeNot.compareTo("Ponctuelle") == 0 && diff <= (21*24*60*60*1000)){
+				        	   if(this.existGroup(notif.getGroup())){
+					        	   results.add(notif);
+			
+				        	   }
+
+						  } else if(typeNot.compareTo("Periodique") == 0  && diffEnd > 0 && (diff < (24*7*60*60*1000))){
+							  
+				        	   if(this.existGroup(notif.getGroup())){
+					        	   results.add(notif);
+			
+				        	   }
+
+						  }
+						}
 	        	   
 	           } while (cursor.moveToNext());
 	       }

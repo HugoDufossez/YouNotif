@@ -10,7 +10,7 @@
     <string name="action_group">Gérer les groupes</string>
     <string name="action_group2">Groupe :</string>
     <string name="action_NotifType">Type :</string>
-    <string name="action_BeginDate">Date début</string>
+    <string name="action_BeginDate">Date début :</string>
     <string name="action_BeginTime">Heure début :</string>
     <string name="action_EndDate">Date fin :</string>
     <string name="action_EndTime">Heure fin :</string>

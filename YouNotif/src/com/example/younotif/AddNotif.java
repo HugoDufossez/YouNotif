@@ -1,6 +1,9 @@
 package com.example.younotif;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import org.json.JSONException;
 
@@ -18,6 +21,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
@@ -70,20 +74,64 @@ public class AddNotif extends Activity implements OnClickListener{
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
             	
-        		String title = ((EditText) findViewById(R.id.txtTitle)).getText().toString();
-            	String group = ((Spinner) findViewById(R.id.spGroup)).getSelectedItem().toString();;
+            	String title = ((EditText) findViewById(R.id.txtTitle))
+						.getText().toString();
+				String group = ((Spinner) findViewById(R.id.spGroup))
+						.getSelectedItem().toString();
+				;
 
-        		String type = ((Spinner) findViewById(R.id.spType)).getSelectedItem().toString();
-        		String beginD =((EditText) findViewById(R.id.txtBeginDate)).getText().toString();
-        		String endD = ((EditText) findViewById(R.id.txtEndDate)).getText().toString();
-        		String day = ((Spinner) findViewById(R.id.spDay)).getSelectedItem().toString();
-        		String content = ((EditText) findViewById(R.id.txtContent)).getText().toString();
-        		String period = ((EditText) findViewById(R.id.periodField)).getText().toString();
-        		String endHour = ((TimePicker) findViewById(R.id.TEndHour)).getCurrentHour()+":"+((TimePicker) findViewById(R.id.TEndHour)).getCurrentMinute();
-        		String beginHour = ((TimePicker) findViewById(R.id.TBeginHour)).getCurrentHour()+":"+((TimePicker) findViewById(R.id.TBeginHour)).getCurrentMinute();
+				String type = ((Spinner) findViewById(R.id.spType))
+						.getSelectedItem().toString();
+				DatePicker dateBegin = (DatePicker) findViewById(R.id.dateBegin);
+				DatePicker dateEnd = (DatePicker) findViewById(R.id.dateEnd);
+				Calendar cal = Calendar.getInstance();
+			    cal.set(Calendar.YEAR, dateBegin.getYear());
+			    cal.set(Calendar.MONTH, dateBegin.getMonth());
+			    cal.set(Calendar.DAY_OF_MONTH, dateBegin.getDayOfMonth());
+			    Date dateRepresentation = cal.getTime();
+			
+				SimpleDateFormat format = (SimpleDateFormat) SimpleDateFormat.getDateInstance();
+				format.applyPattern("dd/MM/yyyy");
+				
 
-        		NotificationModel toAdd = new NotificationModel(group,  title, beginD, endD, beginHour,  endHour,  day, content, type, period);
-        		
+				
+				String beginD = format.format(dateRepresentation);
+
+
+				 
+				cal = Calendar.getInstance();
+			    cal.set(Calendar.YEAR, dateEnd.getYear());
+			    cal.set(Calendar.MONTH, dateEnd.getMonth());
+			    cal.set(Calendar.DAY_OF_MONTH, dateEnd.getDayOfMonth());
+			    dateRepresentation = cal.getTime(); 
+				 
+				String endD = format.format(dateRepresentation);
+				String day = ((Spinner) findViewById(R.id.spDay))
+						.getSelectedItem().toString();
+				String content = ((EditText) findViewById(R.id.txtContent))
+						.getText().toString();
+				String period = ((EditText) findViewById(R.id.periodField))
+						.getText().toString();
+				cal = Calendar.getInstance();
+			    cal.set(Calendar.HOUR_OF_DAY, ((TimePicker) findViewById(R.id.TEndHour))
+						.getCurrentHour());
+			    cal.set(Calendar.MINUTE, ((TimePicker) findViewById(R.id.TEndHour))
+						.getCurrentMinute());
+			    dateRepresentation = cal.getTime();
+			    format.applyPattern("HH:mm");
+				String endHour = format.format(dateRepresentation);
+				cal = Calendar.getInstance();
+			    cal.set(Calendar.HOUR_OF_DAY, ((TimePicker) findViewById(R.id.TBeginHour))
+						.getCurrentHour());
+			    cal.set(Calendar.MINUTE, ((TimePicker) findViewById(R.id.TBeginHour))
+						.getCurrentMinute());
+			    dateRepresentation = cal.getTime();
+				String beginHour =format.format(dateRepresentation); 
+
+				NotificationModel toAdd = new NotificationModel(group, title,
+						beginD, endD, beginHour, endHour, day, content, type,
+						period);
+
         		toAdd.setType(type);
         		toAdd.createItemMap();
                 try {
@@ -93,7 +141,7 @@ public class AddNotif extends Activity implements OnClickListener{
         						Toast.LENGTH_SHORT).show();
 
         			} else if(bool == true){
-        				Toast.makeText(AddNotif.this, "Ajout réussi",
+        				Toast.makeText(AddNotif.this, "Ajout rÃ©ussi",
         						Toast.LENGTH_SHORT).show();
 
         			}

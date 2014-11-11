@@ -27,7 +27,7 @@ public class NotifDetails extends Activity implements OnClickListener {
 		setContentView(R.layout.notif_detail_layout);
 		YouNotifDatabase db = new YouNotifDatabase(this);
 		List<NotificationModel> notifs = db.getAllNotifs();
-		NotificationModel notif = notifs.get(YouNotifDatabase.currentNotifIndex);
+		NotificationModel notif = notifs.get(YouNotifDatabase.currentNotifIndex -1);
 		this.notif = notif;
 		TextView txtGroup = (TextView) findViewById(R.id.detailTxtgroup);
 		txtGroup.setText(notif.getGroup());
