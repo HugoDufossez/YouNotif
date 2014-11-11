@@ -47,6 +47,7 @@ public class ListItemAdapter extends SimpleAdapter {
 
 				searched.setBackgroundColor(Color.parseColor(colors.get(position
 						% (colors.size()))));
+				
 			}
 		    // play with itemView
 

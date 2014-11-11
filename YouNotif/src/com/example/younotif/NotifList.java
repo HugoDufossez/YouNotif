@@ -24,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.app.AlarmManager;
 import android.app.ListFragment;
 import android.app.Notification;
@@ -31,6 +32,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -299,9 +302,10 @@ public class NotifList extends Activity implements OnItemClickListener {
 				new String[] { "titre2", "titre", "description","originGroup","img" },
 				new int[] { R.id.titre2, R.id.titre, R.id.description,R.id.originGroup ,R.id.img });
 		lv.setAdapter(adapter);
+		
 		lv.setOnItemClickListener(this);
 	}
-
+	
 	public boolean extractNewNotifsFromInternet() throws JSONException {
 		boolean returned = false;
 		String url = "http://mesmoyennes.fr/notifications/controller/api.notif.php";
@@ -391,14 +395,18 @@ public class NotifList extends Activity implements OnItemClickListener {
 		case R.id.action_new:
 			// help action
 			Intent intentAppb = new Intent(NotifList.this, AddNotif.class);
-			this.startActivity(intentAppb);
+			ActivityOptions options = ActivityOptions.makeThumbnailScaleUpAnimation(findViewById(R.id.action_new), Bitmap.createBitmap(100, 100, Config.RGB_565),-500,500);
+			this.startActivity(intentAppb,options.toBundle());
+			
+			
 
 			return true;
 		case R.id.action_group:
 			// setContentView(R.layout.activity_group);
 			Intent intentApp = new Intent(NotifList.this, GroupActivity.class);
-			// setContentView(R.layout.activity_group);
-			this.startActivity(intentApp);
+			options = ActivityOptions.makeThumbnailScaleUpAnimation(item.getActionView(), Bitmap.createBitmap(100, 100, Config.RGB_565),0,500);
+			this.startActivity(intentApp,options.toBundle());
+			
 			return true;
 		case R.id.action_consult:
 			// setContentView(R.layout.activity_group);
@@ -440,7 +448,8 @@ public class NotifList extends Activity implements OnItemClickListener {
 		//YouNotifDatabase db = new YouNotifDatabase(this);
 		if (lfinal.size() > 0) {
 			Intent intentApp1 = new Intent(NotifList.this, NotifDetails.class);
-			this.startActivity(intentApp1);
+			ActivityOptions options = ActivityOptions.makeThumbnailScaleUpAnimation(view, Bitmap.createBitmap(100, 100, Config.RGB_565),0,500);
+			this.startActivity(intentApp1,options.toBundle());
 
 		}
 	}
